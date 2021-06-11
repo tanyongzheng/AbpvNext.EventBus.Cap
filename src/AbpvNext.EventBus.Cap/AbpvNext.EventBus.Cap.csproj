@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\common.props" />
+	<Import Project="..\..\configureawait.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>$(Version).1</Version>
+	  <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Authors>tanyongzheng</Authors>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	  <Description>$(Description)</Description>
+	  <PackageReleaseNotes>$(ReleaseNotes)</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Core" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="$(AbpVersion)" />
+    <PackageReference Include="Volo.Abp.EventBus" Version="$(AbpVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetCore.CAP.TopicExtensions\DotNetCore.CAP.TopicExtensions.csproj" />
+  </ItemGroup>
+
+</Project>

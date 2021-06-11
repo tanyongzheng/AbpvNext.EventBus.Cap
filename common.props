@@ -1,0 +1,29 @@
+<Project>
+  <!-- Abp相关配置 -->
+  <Import Project="abp.props"></Import>
+
+  <!-- Cap相关配置 -->
+  <Import Project="cap.props"></Import>
+
+  <!-- 编译设置 -->
+  <PropertyGroup>
+    <!-- 使用c#最新版本 -->
+    <LangVersion>latest</LangVersion>
+    <!-- 忽略哪些编译警告 -->
+    <NoWarn>$(NoWarn);CS1591;NU1603</NoWarn>
+    <!-- 生成xml注释文件 -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <!-- Package 相关设置 -->
+  <PropertyGroup>
+    <Version>$(AbpVersion)</Version>
+    <PackageIconUrl></PackageIconUrl>
+    <RepositoryType>git</RepositoryType>
+	  <PackageProjectUrl>https://github.com/tanyongzheng/AbpvNext.EventBus.Cap</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/tanyongzheng/AbpvNext.EventBus.Cap</RepositoryUrl>
+	  <ReleaseNotes></ReleaseNotes>
+	  <Description>Abp vNext使用Cap替换自带的Event Bus</Description>
+  </PropertyGroup>
+
+</Project>

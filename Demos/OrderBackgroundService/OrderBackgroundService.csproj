@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\abp.props" />
+	<Import Project="..\..\cap.props" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="Volo.Abp.Autofac" Version="$(AbpVersion)" />
+		<PackageReference Include="Volo.Abp.EntityFrameworkCore" Version="$(AbpVersion)" />
+		<PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="$(AbpVersion)" />
+
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.*" />
+		<PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+		<PackageReference Include="Serilog.Sinks.Async" Version="1.4.0" />
+		<PackageReference Include="Serilog.Extensions.Hosting" Version="4.1.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+
+		<PackageReference Include="DotNetCore.CAP.SqlServer" Version="$(CapVersion)" />
+		<PackageReference Include="DotNetCore.CAP.Dashboard" Version="$(CapVersion)" />
+		<PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="$(CapVersion)" />
+		<PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="$(CapVersion)" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\AbpvNext.EventBus.Cap\AbpvNext.EventBus.Cap.csproj" />
+		<ProjectReference Include="..\EventTransferObjects\EventTransferObjects.csproj" />
+	</ItemGroup>
+</Project>
