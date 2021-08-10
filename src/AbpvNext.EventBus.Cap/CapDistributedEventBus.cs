@@ -43,7 +43,8 @@ namespace AbpvNext.EventBus.Cap
             IOptions<AbpDistributedEventBusOptions> distributedEventBusOptions,
             ICapPublisher capPublisher,
             IServiceScopeFactory serviceScopeFactory, 
-            ICurrentTenant currentTenant) : base(serviceScopeFactory, currentTenant)
+            ICurrentTenant currentTenant,
+            IEventErrorHandler errorHandler) : base(serviceScopeFactory, currentTenant,errorHandler)
         {
             AbpDistributedEventBusOptions = distributedEventBusOptions.Value;
             CapPublisher = capPublisher; 
