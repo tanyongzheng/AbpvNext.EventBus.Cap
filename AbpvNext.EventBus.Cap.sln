@@ -18,14 +18,19 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.Solution Items", "0.Solution Items", "{65C23EC6-8871-4F80-A6E2-DA89EE86FB6B}"
 	ProjectSection(SolutionItems) = preProject
 		abp.props = abp.props
+		build\build-all-release.ps1 = build\build-all-release.ps1
+		build\build-all.ps1 = build\build-all.ps1
+		.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
 		cap.props = cap.props
 		common.props = common.props
+		build\common.ps1 = build\common.ps1
 		configureawait.props = configureawait.props
+		build\test-all.ps1 = build\test-all.ps1
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbpvNext.EventBus.Cap", "src\AbpvNext.EventBus.Cap\AbpvNext.EventBus.Cap.csproj", "{3F3450D3-CD87-4D25-BE26-22A48FCE06E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetCore.CAP.TopicExtensions", "src\DotNetCore.CAP.TopicExtensions\DotNetCore.CAP.TopicExtensions.csproj", "{1F1257D9-1639-451B-9643-8FA00E4E63DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCore.CAP.TopicExtensions", "src\DotNetCore.CAP.TopicExtensions\DotNetCore.CAP.TopicExtensions.csproj", "{1F1257D9-1639-451B-9643-8FA00E4E63DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

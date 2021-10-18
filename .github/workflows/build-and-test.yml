@@ -1,0 +1,49 @@
+# Action名字
+name: "build and test"
+
+# 触发条件
+on:
+  push:
+    # 分支，!叹号表示否定，该分支不触发
+    branches:
+    - master
+    - 'dev'
+    - 'develop'
+    - 'feature/*'
+
+  pull_request:
+    branches: [ master ]
+
+# 作业
+jobs:
+
+# 作业名
+  build-test:
+
+  # 运行系统
+    runs-on: windows-latest
+
+    # 运行步骤
+    steps:
+
+    # 使用github自带的action，检出指定的分支到Workflow的工作区
+    - name: Check out Git repository
+      uses: actions/checkout@v2
+
+    # 安装dotnet运行环境 ,并带上版本号
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@master
+      with:
+        dotnet-version: 5.0.x
+        
+      # 生成全部项目   
+    - name: Build All
+      run: .\build-all.ps1
+      working-directory: .\build
+      shell: pwsh
+
+      # 测试全部项目
+    - name: Test All
+      run: .\test-all.ps1
+      working-directory: .\build
+      shell: pwsh      
