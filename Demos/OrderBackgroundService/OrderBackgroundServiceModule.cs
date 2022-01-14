@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Volo.Abp;
+using DotNetCore.CAP.TopicExtensions;
 
 namespace OrderBackgroundService
 {
@@ -21,8 +22,21 @@ namespace OrderBackgroundService
         {
             var configuration = context.Services.GetConfiguration();
             var hostEnvironment = context.Services.GetSingletonInstance<IHostEnvironment>();
-            
+
             #region Cap Event Bus配置
+            context.Services.AddCapTopicExtension(options =>
+            {
+                /*
+                options.UnsubscribedTopics = new List<string>()
+                {
+                    "Demo.User.AddUser"
+                };
+                options.UnsubscribedTopics = new List<string>()
+                {
+                    "Demo.UpdateUserAddress"
+                };
+                */
+            });
             context.AddCapEventBus(capOptions =>
             {
                 capOptions.UseSqlServer("server=localhost;user id=sa;password=123456;database=Test;");

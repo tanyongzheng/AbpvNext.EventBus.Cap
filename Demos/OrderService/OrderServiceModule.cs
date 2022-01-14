@@ -45,11 +45,11 @@ namespace OrderService
                 {
                     "Demo.User.AddUser"
                 };
-                */
                 options.UnsubscribedTopics = new List<string>()
                 {
                     "Demo.UpdateUserAddress"
                 };
+                */
             });
             
             context.AddCapEventBus(capOptions =>

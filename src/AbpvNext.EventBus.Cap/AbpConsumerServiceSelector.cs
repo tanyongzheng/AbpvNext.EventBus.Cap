@@ -101,28 +101,39 @@ namespace AbpvNext.EventBus.Cap
 
                     // Abp 事件处理消费者
                     var abpConsumerExecutorDescriptors = GetAbpEventHandlerDescription(eventTransferObjectsType, abpEventHandlerType);
+                    capConsumerExecutorDescriptorList.AddRange(abpConsumerExecutorDescriptors);
 
-                    foreach (var abpConsumerExecutorDescriptor in abpConsumerExecutorDescriptors)
-                    {
-                        // 同事件名的消费者数，如果同一事件处理者（分组相同）有多个实例（譬如订单服务和订单后台服务都订阅处理了同一个ETO）
-                        // 如都需要处理该事件（RabbitMq中为路由键），则需要开启多个分组(RabbitMq中为多个队列)
-                        // 也会修改直接使用Cap的分组（防止直接Cap的消费者被忽略）
-                        if (_eventBusOptions.IsEnabledSameEventMultiGroup)
-                        {
-                            //var sameEventNameConsumerCount = executorDescriptorList.Count(x =>
-                            //    x.Attribute.Name == consumerExecutorDescriptor.Attribute.Name);
-                            var sameEventNameConsumerCount = capConsumerExecutorDescriptorList.Count(x =>
-                                new ConsumerExecutorDescriptorComparer().Equals(x, abpConsumerExecutorDescriptor));
-                            if (sameEventNameConsumerCount > 1)
-                            {
-                                abpConsumerExecutorDescriptor.Attribute.Group += $".{_eventBusOptions.SameEventMultiGroupIndexPrefix}{sameEventNameConsumerCount}";
-                            }
-                        }
-
-                        capConsumerExecutorDescriptorList.Add(abpConsumerExecutorDescriptor);
-                    }
                     //Subscribe(genericArgs[0], new IocEventHandlerFactory(ServiceScopeFactory, handler));
                     
+                }
+            }
+
+            // 同事件名的消费者数，如果同一事件处理者（分组相同）有多个实例（譬如订单服务和订单后台服务都订阅处理了同一个ETO）
+            // 如都需要处理该事件（RabbitMq中为路由键），则需要开启多个分组(RabbitMq中为多个队列)
+            // 也会修改直接使用Cap的分组（防止直接Cap的消费者被忽略）
+            if (_eventBusOptions.IsEnabledSameEventMultiGroup)
+            {
+                // 判断当前启动的Host实列是否订阅多个ETO的Handler（相同路由键）
+                // 根据主题名（路由键）组合
+                //var capConsumerExecutorDescriptorGroups = capConsumerExecutorDescriptorList.GroupBy(x => x.Attribute.Name);
+                var capConsumerExecutorDescriptorGroups = capConsumerExecutorDescriptorList.GroupBy(x => x.Attribute);
+
+                foreach (var capConsumerExecutorDescriptorGroup in capConsumerExecutorDescriptorGroups)
+                {
+                    var sameNamecapConsumerExecutorDescriptors=capConsumerExecutorDescriptorGroup.ToList();
+                    var sameEventNameConsumerCount = sameNamecapConsumerExecutorDescriptors.Count;
+                    if (sameEventNameConsumerCount == 1)
+                    {
+                        continue;
+                    }
+                    for(var i=0; i<sameEventNameConsumerCount; i++)
+                    {
+                        //忽略一个，保持与CAP的主题名相同
+                        if (i == 0) continue;
+
+                        sameNamecapConsumerExecutorDescriptors[i].Attribute.Group +=
+                            $".{_eventBusOptions.SameEventMultiGroupIndexPrefix}{sameEventNameConsumerCount}_{i}";
+                    }
                 }
             }
             return _filterTopicService.FilterTopics(capConsumerExecutorDescriptorList);

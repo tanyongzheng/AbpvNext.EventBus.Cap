@@ -13,6 +13,7 @@ using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
+using DotNetCore.CAP.TopicExtensions;
 
 namespace UserService
 {
@@ -40,6 +41,20 @@ namespace UserService
             });
 
             #region Cap Event Bus配置
+
+            context.Services.AddCapTopicExtension(options =>
+            {
+                /*
+                options.UnsubscribedTopics = new List<string>()
+                {
+                    "Demo.User.AddUser"
+                };
+                options.UnsubscribedTopics = new List<string>()
+                {
+                    "Demo.UpdateUserAddress"
+                };
+                */
+            });
             context.AddCapEventBus(capOptions =>
             {
                 capOptions.UseSqlServer("server=localhost;user id=sa;password=123456;database=Test;");
