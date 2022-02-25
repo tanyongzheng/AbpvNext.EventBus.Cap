@@ -12,6 +12,7 @@ using Volo.Abp.EventBus;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Threading;
+using Volo.Abp.Uow;
 
 namespace AbpvNext.EventBus.Cap
 {
@@ -39,18 +40,21 @@ namespace AbpvNext.EventBus.Cap
         /// </summary>
         protected ConcurrentDictionary<string, Type> EventTypes { get; }
 
+        
         public CapDistributedEventBus(
             IOptions<AbpDistributedEventBusOptions> distributedEventBusOptions,
             ICapPublisher capPublisher,
             IServiceScopeFactory serviceScopeFactory, 
             ICurrentTenant currentTenant,
-            IEventErrorHandler errorHandler) : base(serviceScopeFactory, currentTenant,errorHandler)
+            IUnitOfWorkManager unitOfWorkManager,
+            IEventHandlerInvoker eventHandlerInvoker): base(serviceScopeFactory, currentTenant, unitOfWorkManager, eventHandlerInvoker)
         {
             AbpDistributedEventBusOptions = distributedEventBusOptions.Value;
             CapPublisher = capPublisher; 
             HandlerFactories = new ConcurrentDictionary<Type, List<IEventHandlerFactory>>();
             EventTypes = new ConcurrentDictionary<string, Type>();
         }
+        
 
         public override IDisposable Subscribe(Type eventType, IEventHandlerFactory factory)
         {
@@ -114,12 +118,44 @@ namespace AbpvNext.EventBus.Cap
             return Subscribe(typeof(TEvent), handler);
         }
 
-
+        /*
         public override async Task PublishAsync(Type eventType, object eventData)
         {
             var eventName = EventNameAttribute.GetNameOrDefault(eventType);
             await CapPublisher.PublishAsync(eventName, eventData);
         }
+        */
+
+        public virtual async Task PublishAsync(Type eventType, object eventData, bool onUnitOfWorkComplete = true, bool useOutbox = true)
+        {
+
+            if (onUnitOfWorkComplete && UnitOfWorkManager.Current != null)
+            {
+                AddToUnitOfWork(
+                    UnitOfWorkManager.Current,
+                    new UnitOfWorkEventRecord(eventType, eventData, EventOrderGenerator.GetNext(), useOutbox)
+                );
+                return;
+            }
+
+            // TODO: 如使用发件箱，转到CAP的事务工作单元（使用CAP自带的发件箱）
+            if (useOutbox && UnitOfWorkManager.Current != null)
+            {
+                // 获取Cap的工作单元
+                // var capTransaction = CapPublisher.Transaction.Value;
+
+                await PublishToEventBusAsync(eventType, eventData);
+                return;
+            }
+
+            await PublishToEventBusAsync(eventType, eventData);
+        }
+
+        public virtual Task PublishAsync<TEvent>(TEvent eventData, bool onUnitOfWorkComplete = true, bool useOutbox = true) where TEvent : class
+        {
+            return PublishAsync(typeof(TEvent), eventData, onUnitOfWorkComplete, useOutbox);
+        }
+
 
         protected override IEnumerable<EventTypeWithEventHandlerFactories> GetHandlerFactories(Type eventType)
         {
@@ -163,5 +199,17 @@ namespace AbpvNext.EventBus.Cap
 
             return false;
         }
+
+        protected override async Task PublishToEventBusAsync(Type eventType, object eventData)
+        {
+            var eventName = EventNameAttribute.GetNameOrDefault(eventType);
+            await CapPublisher.PublishAsync(eventName, eventData);
+        }
+
+        protected override void AddToUnitOfWork(IUnitOfWork unitOfWork, UnitOfWorkEventRecord eventRecord)
+        {
+            unitOfWork.AddOrReplaceDistributedEvent(eventRecord);
+        }
+
     }
 }

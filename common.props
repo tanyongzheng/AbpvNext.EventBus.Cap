@@ -17,7 +17,7 @@
 
   <!-- Package 相关设置 -->
   <PropertyGroup>
-    <Version>4.4.2.1</Version>
+    <Version>5.0.2</Version>
     <PackageIconUrl></PackageIconUrl>
     <RepositoryType>git</RepositoryType>
 	  <PackageProjectUrl>https://github.com/tanyongzheng/AbpvNext.EventBus.Cap</PackageProjectUrl>
