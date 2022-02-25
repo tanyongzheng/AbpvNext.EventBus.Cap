@@ -18,20 +18,28 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.Solution Items", "0.Solution Items", "{65C23EC6-8871-4F80-A6E2-DA89EE86FB6B}"
 	ProjectSection(SolutionItems) = preProject
 		abp.props = abp.props
-		build\build-all-release.ps1 = build\build-all-release.ps1
-		build\build-all.ps1 = build\build-all.ps1
-		.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
 		cap.props = cap.props
 		common.props = common.props
-		build\common.ps1 = build\common.ps1
 		configureawait.props = configureawait.props
 		readme.md = readme.md
-		build\test-all.ps1 = build\test-all.ps1
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbpvNext.EventBus.Cap", "src\AbpvNext.EventBus.Cap\AbpvNext.EventBus.Cap.csproj", "{3F3450D3-CD87-4D25-BE26-22A48FCE06E0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCore.CAP.TopicExtensions", "src\DotNetCore.CAP.TopicExtensions\DotNetCore.CAP.TopicExtensions.csproj", "{1F1257D9-1639-451B-9643-8FA00E4E63DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{6E9C9A99-7F11-4B40-889C-354E1B4D114F}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{2BD77E61-A522-4398-9376-9048CCB97DA9}"
+	ProjectSection(SolutionItems) = preProject
+		build\build-all-release.ps1 = build\build-all-release.ps1
+		build\build-all.ps1 = build\build-all.ps1
+		build\common.ps1 = build\common.ps1
+		build\test-all.ps1 = build\test-all.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +82,8 @@ Global
 		{F5082466-7C31-48F7-8F67-7B3A4DDB1E50} = {90D69F5F-6431-4AAA-B72D-C96E70762881}
 		{3F3450D3-CD87-4D25-BE26-22A48FCE06E0} = {88CF50B0-E2CD-4DB8-B3A7-EF1975A770C7}
 		{1F1257D9-1639-451B-9643-8FA00E4E63DD} = {88CF50B0-E2CD-4DB8-B3A7-EF1975A770C7}
+		{6E9C9A99-7F11-4B40-889C-354E1B4D114F} = {65C23EC6-8871-4F80-A6E2-DA89EE86FB6B}
+		{2BD77E61-A522-4398-9376-9048CCB97DA9} = {65C23EC6-8871-4F80-A6E2-DA89EE86FB6B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74B421A3-FA33-4E34-B656-09E3D3BBBCB6}
