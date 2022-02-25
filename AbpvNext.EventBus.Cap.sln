@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31129.286
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2.Demos", "2.Demos", "{90D69F5F-6431-4AAA-B72D-C96E70762881}"
 EndProject
@@ -25,6 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.Solution Items", "0.Solut
 		common.props = common.props
 		build\common.ps1 = build\common.ps1
 		configureawait.props = configureawait.props
+		readme.md = readme.md
 		build\test-all.ps1 = build\test-all.ps1
 	EndProjectSection
 EndProject
